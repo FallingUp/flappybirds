@@ -34,6 +34,11 @@ var mainState = {
                         Phaser.Keyboard.SPACEBAR);
         spaceBar.onDown.add(this.jump, this);
         
+        //Score
+        this.score = 0;
+        this.labelScore = game.add.text(20, 20, "0",
+            { font: "30px Arial", fill: "#ffffff" });
+        
         //Create an empty group
         this.pipes = game.add.group();
         
@@ -48,6 +53,10 @@ var mainState = {
         //Call the 'restartGame' function
         if (this.bird.y <0 || this.bird.y >490)
             this.restartGame();
+        
+        //Calls the ressartGame function each time the bird dies
+        game.physics.arcade.overlap(
+            this.bird, this.pipes, this.restartGame, null, this);
     },
     
     jump: function() {
@@ -90,6 +99,11 @@ var mainState = {
         for (var i = 0; i < 8; i++)
             if (i != hole && i != hole +1)
                 this.addOnePipe(499, i * 60 + 10);
+        
+        //Increases score as new pipes are created
+        this.score = 0;
+        this.labelScore = game.add.text(20, 20, "0",
+            { font: "30px Arial", fill: "#fffff" });
     },
 };
 
